@@ -7,9 +7,7 @@
 
 ## **🎯 Project Overview**
 
-Provide a concise (2-3 sentence) description of what your application does and the specific problem it solves. Why did you build this?
-
-we are gonna built 你恶臭v额外吃
+Our Tic-Tac-Toe application provides a flexible environment for experimenting with the Minimax algorithm through multiple game modes: human vs human, human vs AI, and AI vs AI. Users can configure who moves first, adjust AI difficulty by modifying search depth, and customize visual settings such as background color. We built this tool to bridge the gap between theoretical algorithm instruction and practical implementation, allowing users to observe how decision trees, evaluation functions, and search depth directly influence an AI's strategic choices in real time.
 
 ## **🚀 Quick Start (Architect Level: < 60s Setup)**
 
