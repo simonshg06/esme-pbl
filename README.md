@@ -2,7 +2,7 @@
 
 **MVP Status:** \[e.g., v1.0-Production]
 
-**Group Members:** Yousef Abouturkia, Charlie Delecoeur, Simon berger, Camy Merdgi
+**Group Members:** Yousef Abouturkia, Charlie Delecoeur, Simon berger, Camy Merdji
 
 
 ## **🎯 Project Overview**
