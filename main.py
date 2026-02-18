@@ -1,5 +1,7 @@
-class MorpionIA:
-    def__init__(self,depth=9):
-    self.max_depth = depth
+import math
+import tkinter as tk
+from tkinter import ttk
 
-print 
+class TicTacToe:
+    def __init__(self,depth=9) #initialize the game and set the maximum depth
+     self.max_depth = depth
