@@ -112,7 +112,7 @@ class TicTacToe:
         board[r][c] = ' '
         return [best_move] + rest
     
-    class TicTacToeApp:
+class TicTacToeApp:
    def __init__(self, root):
        self.root = root
        self.root.title("Tic-Tac-Toe")
@@ -126,3 +126,6 @@ class TicTacToe:
        self.game_mode = tk.StringVar(value="pvc")
        self._build_ui()
        self.reset_game()
+    
+    def _build_ui(self):
+       tk.Label(self.root, text="Tic-Tac-Toe", font=("Arial", 20, "bold")).pack(pady=10)
