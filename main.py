@@ -111,3 +111,18 @@ class TicTacToe:
         rest = self.get_ideal_path(board, ai_piece, not maximizing)
         board[r][c] = ' '
         return [best_move] + rest
+    
+    class TicTacToeApp:
+   def __init__(self, root):
+       self.root = root
+       self.root.title("Tic-Tac-Toe")
+       self.root.geometry("600x750")
+       self.root.resizable(False, False)
+       self.engine = TicTacToe()
+       self.board = [[' '] * 3 for _ in range(3)]
+       self.buttons = [[None] * 3 for _ in range(3)]
+       self.current_player = 'X'  # X always starts
+       self.game_over = False
+       self.game_mode = tk.StringVar(value="pvc")
+       self._build_ui()
+       self.reset_game()
