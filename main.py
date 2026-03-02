@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 class TicTacToe:
-    def __init__(self,depth=9) #initialize the game and set the maximum depth
+    def __init__(self,depth=9): #initialize the game and set the maximum depth
         self.max_depth = depth
 
     def check_winner(self, board, player):
@@ -13,6 +13,10 @@ class TicTacToe:
         if board[0][0] == board[1][1] == board[2][2] == player: return True #Check the main diagonal
         if board[0][2] == board[1][1] == board[2][0] == player: return True
         return False # No winner
+
+    def is_full(self, board):
+        return all(board[r][c] != ' ' for r in range(3) for c in range(3))
+
 
     def evaluate(self, board, ai_piece):
         opponent = 'X' if ai_piece == 'O' else 'O'
@@ -30,6 +34,6 @@ class TicTacToe:
              if ai_piece in line and opponent in line: continue 
              if line.count(ai_piece) == 2: score += 30  
              elif line.count(ai_piece) == 1: score += 10 
-            if line.count(opponent) == 2: score -= 30
-            elif line.count(opponent) == 1: score -= 10
+             if line.count(opponent) == 2: score -= 30
+             elif line.count(opponent) == 1: score -= 10
         return score # Return the calculated score
