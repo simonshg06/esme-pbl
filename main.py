@@ -85,3 +85,11 @@ class TicTacToe:
         scores = []
         self.minimax(board, self.max_depth, True, ai_piece, collect_scores=scores)
         return scores
+    def get_ideal_path(self, board, ai_piece, maximizing):
+        opponent = 'X' if ai_piece == 'O' else 'O'
+        current_piece = ai_piece if maximizing else opponent
+
+        if self.check_winner(board, ai_piece) or self.check_winner(board, opponent) or self.is_full(board):
+            return []
+        best_val = -math.inf if maximizing else math.inf
+        best_move = None
