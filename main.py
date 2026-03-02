@@ -41,4 +41,28 @@ class TicTacToe:
         opponent = 'X' if ai_piece == 'O' else 'O'
         if self.check_winner(board, ai_piece): return 1000
         if self.check_winner(board, opponent): return -1000
-        
+        if self.is_full(board) or depth == 0:
+            score = self.evaluate(board, ai_piece)
+            if collect_scores is not None:
+                collect_scores.append(score)
+            return score
+        if is_maximizing:
+            best = -math.inf
+            for r in range(3):
+                for c in range(3):
+                    if board[r][c] == ' ':
+                        board[r][c] = ai_piece
+                        val = self.minimax(board, depth - 1, False, ai_piece,collect_scores)
+                        board[r][c] = ' '
+                        best = max(best,val)
+            return best
+        else:
+            best = math.inf
+            for r in range(3):
+                for c in range(3):
+                    if board[r][c] == ' ':
+                        board[r][c] = opponent
+                        val = self.minimax(board, depth - 1, True, ai_piece, collect_scores)
+                        board[r][c] = ' '
+                        best = min(best,val)
+            return best
