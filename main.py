@@ -37,3 +37,8 @@ class TicTacToe:
              if line.count(opponent) == 2: score -= 30
              elif line.count(opponent) == 1: score -= 10
         return score # Return the calculated score
+    def minimax(self, board, depth, is_maximizing, ai_piece, collect_scores=None):
+        opponent = 'X' if ai_piece == 'O' else 'O'
+        if self.check_winner(board, ai_piece): return 1000
+        if self.check_winner(board, opponent): return -1000
+        
