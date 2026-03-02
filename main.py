@@ -66,3 +66,7 @@ class TicTacToe:
                         board[r][c] = ' '
                         best = min(best,val)
             return best
+    def get_best_move(self, board, ai_piece):
+        best_val = -math.inf
+        best_move = None
+        opponent = 'X' if ai_piece == 'O' else 'O'
