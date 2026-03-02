@@ -81,3 +81,7 @@ class TicTacToe:
                         best_val = val
                         best_move = (r, c)
         return best_move
+    def get_all_scores(self, board, ai_piece):
+        scores = []
+        self.minimax(board, self.max_depth, True, ai_piece, collect_scores=scores)
+        return scores
