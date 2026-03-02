@@ -93,3 +93,21 @@ class TicTacToe:
             return []
         best_val = -math.inf if maximizing else math.inf
         best_move = None
+
+        for r in range(3):
+            for c in range(3):
+                if board[r][c] == ' ':
+                    board[r][c] = current_piece
+                    val = self.minimax(board, self.max_depth - 1, not maximizing, ai_piece)
+                    board[r][c] = ' '
+                    if (maximizing and val > best_val) or (not maximizing and val < best_val):
+                        best_val = val
+                        best_move = (r, c)
+        if best_move is None:
+            return []
+        
+        r,c = best_move
+        board[r][c] = current_piece
+        rest = self.get_ideal_path(board, ai_piece, not maximizing)
+        board[r][c] = ' '
+        return [best_move] + rest
