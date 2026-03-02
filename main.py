@@ -70,3 +70,14 @@ class TicTacToe:
         best_val = -math.inf
         best_move = None
         opponent = 'X' if ai_piece == 'O' else 'O'
+
+        for r in range(3):
+            for c in range(3):
+                if board[r][c] == ' ':
+                    board[r][c] = ai_piece
+                    val = self.minimax(board, self.max_depth_max - 1, False, ai_piece)
+                    board[r][c] = ' '
+                    if val > best_val:
+                        best_val = val
+                        best_move = (r, c)
+        return best_move
