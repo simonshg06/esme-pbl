@@ -129,3 +129,8 @@ class TicTacToeApp:
     
     def _build_ui(self):
        tk.Label(self.root, text="Tic-Tac-Toe", font=("Arial", 20, "bold")).pack(pady=10)
+
+        mode_frame = tk.LabelFrame(self.root, text="Game Mode", padx=10, pady=5)
+        mode_frame.pack(fill="x", padx=20, pady=5)
+        for text, val in [("Player vs Computer", "pvc"), ("Player vs Player", "pvp"), ("Computer vs Computer", "cvc")]:
+           tk.Radiobutton(mode_frame, text=text, variable=self.game_mode, value=val).pack(side="left", padx=10)
