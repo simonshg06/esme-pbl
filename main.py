@@ -218,67 +218,72 @@ class TicTacToeGame: #start charlie, interface of the game
 
        #SIMON
 
-        self.current_player = 'O' if player == 'X' else 'X'
-        self.status_label.config(text=f"Player {self.current_player}'s turn")
+       self.current_player = 'O' if player == 'X' else 'X'
+       self.status_label.config(text=f"Player {self.current_player}'s turn")
        
-       def _ai_turn(self):
-           if self.game_over: return
-           move = self.engine.get_best_move(self.board, self.current_player)
-           if move:
-               self._place_piece(move[0], move[1], self.current_player)
+    def _ai_turn(self):
+        if self.game_over: return
+        move = self.engine.get_best_move(self.board, self.current_player)
+        if move:
+            self._place_piece(move[0], move[1], self.current_player)
 
-        def _cvc_turn(self):
+    def _cvc_turn(self):
        # Computer vs Computer: each AI plays in turn with a 600ms delay
-            if self.game_over: return
-                move = self.engine.get_best_move(self.board, self.current_player)
-            if move:
-                self._place_piece(move[0], move[1], self.current_player)
-            if not self.game_over:
-                self.root.after(600, self._cvc_turn)  # Schedule the next AI move
+        if self.game_over: return
+        move = self.engine.get_best_move(self.board, self.current_player)
+        if move:
+            self._place_piece(move[0], move[1], self.current_player)
+        if not self.game_over:
+            self.root.after(600, self._cvc_turn)  # Schedule the next AI move
 
-        def _show_scores(self):
+    def _show_scores(self):
        # Collects and displays all leaf evaluation scores from the current board position
-            scores = self.engine.get_all_scores(self.board, 'O')
-            if not scores:
-                self._print_info("No scores to display (game may be over).")
-                return
-            text = f"Evaluation scores for this generation ({len(scores)} nodes):\n"
-            text += f"  Values : {scores}\n"
-            text += f"  Minimum: {min(scores)}\n"
-            text += f"  Maximum: {max(scores)}"
-            self._print_info(text)
+        scores = self.engine.get_all_scores(self.board, 'O')
+        if not scores:
+            self._print_info("No scores to display (game may be over).")
+            return
+        text = f"Evaluation scores for this generation ({len(scores)} nodes):\n"
+        text += f"  Values : {scores}\n"
+        text += f"  Minimum: {min(scores)}\n"
+        text += f"  Maximum: {max(scores)}"
+        self._print_info(text)
 
-        def _show_path(self, maximizing):
+    def _show_path(self, maximizing):
        # Computes and displays the ideal sequence of moves for AI (maximizing=True) or opponent (maximizing=False)
-            import copy
-            board_copy = copy.deepcopy(self.board)  # Works on a copy so the real board is not modified
-            path = self.engine.get_ideal_path(board_copy, 'O', maximizing)
-            if not path:
-                self._print_info("No path found (game may already be over).")
-                return
-            label = "AI (O)" if maximizing else "Opponent (X)"
-            moves_str = " → ".join([f"({r},{c})" for r, c in path])
-            self._print_info(f"Ideal path for {label}:\n  {moves_str}")
+        import copy
+        board_copy = copy.deepcopy(self.board)  # Works on a copy so the real board is not modified
+        path = self.engine.get_ideal_path(board_copy, 'O', maximizing)
+        if not path:
+            self._print_info("No path found (game may already be over).")
+            return
+        label = "AI (O)" if maximizing else "Opponent (X)"
+        moves_str = " → ".join([f"({r},{c})" for r, c in path])
+        self._print_info(f"Ideal path for {label}:\n  {moves_str}")
 
 
 
 
-        def reset_game(self):
-            self.board = [[' '] * 3 for _ in range(3)]
-            self.current_player = 'X'
-            self.game_over = False
-            self._update_depth()
 
 
-            for r in range(3):
-                for c in range(3):
-                    self.buttons[r][c].config(text="", state="normal", bg="white")
 
 
-            self.status_label.config(text="Player X's turn")
-            self._print_info("Game started. Make your move!")
+
+    def reset_game(self):
+        self.board = [[' '] * 3 for _ in range(3)]
+        self.current_player = 'X'
+        self.game_over = False
+        self._update_depth()
+
+
+        for r in range(3):
+            for c in range(3):
+                self.buttons[r][c].config(text="", state="normal", bg="white")
+
+
+        self.status_label.config(text="Player X's turn")
+        self._print_info("Game started. Make your move!")
 
 
        # If CVC mode, start the automated match after a short delay
-            if self.game_mode.get() == "cvc":
-                self.root.after(500, self._cvc_turn)
+        if self.game_mode.get() == "cvc":
+            self.root.after(500, self._cvc_turn)
