@@ -186,6 +186,29 @@ class TicTacToeApp:
 
     def _on_click(self, r, c):
        if self.game_over or self.board[r][c] != ' ': return
-
-
        mode = self.game_mode.get()
+
+       if mode == "pvc" and self.current_player == 'O': return
+       self._place_piece(r, c, self.current_player)
+       
+       if not self.game_over:
+           if mode == "pvc":
+               self.root.after(300, self._ai_turn)  # AI plays after a short delay
+
+
+    def _place_piece(self, r, c, player):
+       self.board[r][c] = player
+       color = "#2196F3" if player == 'X' else "#F44336"  # Blue for X, red for O
+       self.buttons[r][c].config(text=player, fg=color, state="disabled")
+
+
+       if self.engine.check_winner(self.board, player):
+           self.status_label.config(text=f"🎉 {player} wins!")
+           self.game_over = True
+           return
+
+
+       if self.engine.is_full(self.board):
+           self.status_label.config(text="It's a draw!")
+           self.game_over = True
+           return
