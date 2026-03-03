@@ -152,3 +152,18 @@ class TicTacToeApp:
 
        self.status_label = tk.Label(self.root, text="", font=("Arial", 13))
        self.status_label.pack(pady=5)
+
+       btn_frame = tk.Frame(self.root)
+       btn_frame.pack(pady=5)
+       tk.Button(btn_frame, text="Restart", font=("Arial", 11), bg="#4CAF50", fg="white",
+                 command=self.reset_game, width=12).grid(row=0, column=0, padx=8)
+       tk.Button(btn_frame, text="Show Scores", font=("Arial", 11), bg="#2196F3", fg="white",
+                 command=self._show_scores, width=12).grid(row=0, column=1, padx=8)
+
+
+       path_frame = tk.Frame(self.root)
+       path_frame.pack(pady=5)
+       tk.Button(path_frame, text="AI Ideal Path", font=("Arial", 11), bg="#9C27B0", fg="white",
+                 command=lambda: self._show_path(maximizing=True), width=15).grid(row=0, column=0, padx=8)
+       tk.Button(path_frame, text="Opponent Ideal Path", font=("Arial", 11), bg="#FF5722", fg="white",
+                 command=lambda: self._show_path(maximizing=False), width=18).grid(row=0, column=1, padx=8)
