@@ -167,3 +167,11 @@ class TicTacToeApp:
                  command=lambda: self._show_path(maximizing=True), width=15).grid(row=0, column=0, padx=8)
        tk.Button(path_frame, text="Opponent Ideal Path", font=("Arial", 11), bg="#FF5722", fg="white",
                  command=lambda: self._show_path(maximizing=False), width=18).grid(row=0, column=1, padx=8)
+       
+
+       self.info_box = tk.Text(self.root, height=6, font=("Courier", 10), state="disabled", bg="#f5f5f5")
+       self.info_box.pack(fill="x", padx=20, pady=5)
+
+
+    def _update_depth(self):
+       self.engine.max_depth = self.depth_var.get()  # Updates AI depth based on difficulty selection
