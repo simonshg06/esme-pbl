@@ -212,3 +212,13 @@ class TicTacToeGame: #start charlie, interface of the game
            self.status_label.config(text="It's a draw!")
            self.game_over = True
            return #end charlie
+       
+
+
+
+       #SIMON
+
+        self.current_player = 'O' if player == 'X' else 'X'
+        self.status_label.config(text=f"Player {self.current_player}'s turn")
+
+
