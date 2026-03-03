@@ -175,3 +175,17 @@ class TicTacToeApp:
 
     def _update_depth(self):
        self.engine.max_depth = self.depth_var.get()  # Updates AI depth based on difficulty selection
+    
+    def _print_info(self, text):
+       # Writes text to the info box at the bottom of the window
+       self.info_box.config(state="normal")
+       self.info_box.delete("1.0", tk.END)
+       self.info_box.insert(tk.END, text)
+       self.info_box.config(state="disabled")
+
+
+    def _on_click(self, r, c):
+       if self.game_over or self.board[r][c] != ' ': return
+
+
+       mode = self.game_mode.get()
