@@ -287,3 +287,10 @@ class TicTacToeGame: #start charlie, interface of the game
        # If CVC mode, start the automated match after a short delay
         if self.game_mode.get() == "cvc":
             self.root.after(500, self._cvc_turn)
+
+
+
+    if __name__ == "__main__":
+        root = tk.Tk()
+        app = TicTacToeApp(root)
+        root.mainloop()
