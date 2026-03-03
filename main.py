@@ -149,3 +149,6 @@ class TicTacToeApp:
             btn = tk.Button(board_frame, text="", font=("Arial", 28, "bold"), width=4, height=2,bg="white", command=lambda row=r, col=c: self._on_click(row, col))
             btn.grid(row=r, column=c, padx=3, pady=3)
             self.buttons[r][c] = btn
+
+       self.status_label = tk.Label(self.root, text="", font=("Arial", 13))
+       self.status_label.pack(pady=5)
