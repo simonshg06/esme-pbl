@@ -156,7 +156,7 @@ class TicTacToeGame: #start charlie, interface of the game
     def __init__(self, root):
         self.root = root
         self.root.title("Tic-Tac-Toe")
-        self.root.geometry("600x750")
+        self.root.geometry("600x800")
         self.root.resizable(False, False)
         self.engine = TicTacToe()
         self.board = [[' '] * 3 for _ in range(3)]
@@ -328,7 +328,7 @@ class TicTacToeGame: #start charlie, interface of the game
 
     def _show_scores(self):
         # Collects and displays all leaf evaluation scores from the current board position
-        scores = self.engine.get_all_scores(self.board, 'O')
+        scores = self.engine.get_all_scores(self.board, self.current_player)
         if not scores:
             self._print_info("No scores to display (game may be over).")
             return
