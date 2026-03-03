@@ -248,6 +248,18 @@ class TicTacToeGame: #start charlie, interface of the game
             text += f"  Maximum: {max(scores)}"
             self._print_info(text)
 
+        def _show_path(self, maximizing):
+       # Computes and displays the ideal sequence of moves for AI (maximizing=True) or opponent (maximizing=False)
+            import copy
+            board_copy = copy.deepcopy(self.board)  # Works on a copy so the real board is not modified
+            path = self.engine.get_ideal_path(board_copy, 'O', maximizing)
+            if not path:
+                self._print_info("No path found (game may already be over).")
+                return
+            label = "AI (O)" if maximizing else "Opponent (X)"
+            moves_str = " → ".join([f"({r},{c})" for r, c in path])
+            self._print_info(f"Ideal path for {label}:\n  {moves_str}")
+
 
 
 
