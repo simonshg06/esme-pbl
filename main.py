@@ -236,5 +236,18 @@ class TicTacToeGame: #start charlie, interface of the game
             if not self.game_over:
                 self.root.after(600, self._cvc_turn)  # Schedule the next AI move
 
+        def _show_scores(self):
+       # Collects and displays all leaf evaluation scores from the current board position
+            scores = self.engine.get_all_scores(self.board, 'O')
+            if not scores:
+                self._print_info("No scores to display (game may be over).")
+                return
+            text = f"Evaluation scores for this generation ({len(scores)} nodes):\n"
+            text += f"  Values : {scores}\n"
+            text += f"  Minimum: {min(scores)}\n"
+            text += f"  Maximum: {max(scores)}"
+            self._print_info(text)
+
+
 
 
