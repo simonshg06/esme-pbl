@@ -113,7 +113,7 @@ class TicTacToe:
         return [best_move] + rest
     
 class TicTacToeApp:
-   def __init__(self, root):
+    def __init__(self, root):
        self.root = root
        self.root.title("Tic-Tac-Toe")
        self.root.geometry("600x750")
@@ -129,14 +129,21 @@ class TicTacToeApp:
     
     def _build_ui(self):
        tk.Label(self.root, text="Tic-Tac-Toe", font=("Arial", 20, "bold")).pack(pady=10)
-
-        mode_frame = tk.LabelFrame(self.root, text="Game Mode", padx=10, pady=5)
-        mode_frame.pack(fill="x", padx=20, pady=5)
-        for text, val in [("Player vs Computer", "pvc"), ("Player vs Player", "pvp"), ("Computer vs Computer", "cvc")]:
+       mode_frame = tk.LabelFrame(self.root, text="Game Mode", padx=10, pady=5)
+       mode_frame.pack(fill="x", padx=20, pady=5)
+       for text, val in [("Player vs Computer", "pvc"), ("Player vs Player", "pvp"), ("Computer vs Computer", "cvc")]:
            tk.Radiobutton(mode_frame, text=text, variable=self.game_mode, value=val).pack(side="left", padx=10)
 
-        diff_frame = tk.LabelFrame(self.root, text="Difficulty (AI depth)", padx=10, pady=5)
-        diff_frame.pack(fill="x", padx=20, pady=5)
-        self.depth_var = tk.IntVar(value=9)
-        for text, val in [("Easy (1)", 1), ("Medium (3)", 3), ("Hard (9)", 9)]:
+       diff_frame = tk.LabelFrame(self.root, text="Difficulty (AI depth)", padx=10, pady=5)
+       diff_frame.pack(fill="x", padx=20, pady=5)
+       self.depth_var = tk.IntVar(value=9)
+       for text, val in [("Easy (1)", 1), ("Medium (3)", 3), ("Hard (9)", 9)]:
            tk.Radiobutton(diff_frame, text=text, variable=self.depth_var, value=val, command=self._update_depth).pack(side="left", padx=10)
+
+       board_frame = tk.Frame(self.root, bg="#333")
+       board_frame.pack(pady=10)
+       for r in range(3):
+           for c in range(3):
+            btn = tk.Button(board_frame, text="", font=("Arial", 28, "bold"), width=4, height=2,bg="white", command=lambda row=r, col=c: self._on_click(row, col))
+            btn.grid(row=r, column=c, padx=3, pady=3)
+            self.buttons[r][c] = btn
