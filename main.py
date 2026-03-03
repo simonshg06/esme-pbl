@@ -263,3 +263,22 @@ class TicTacToeGame: #start charlie, interface of the game
 
 
 
+        def reset_game(self):
+            self.board = [[' '] * 3 for _ in range(3)]
+            self.current_player = 'X'
+            self.game_over = False
+            self._update_depth()
+
+
+            for r in range(3):
+                for c in range(3):
+                    self.buttons[r][c].config(text="", state="normal", bg="white")
+
+
+            self.status_label.config(text="Player X's turn")
+            self._print_info("Game started. Make your move!")
+
+
+       # If CVC mode, start the automated match after a short delay
+            if self.game_mode.get() == "cvc":
+                self.root.after(500, self._cvc_turn)
