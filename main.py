@@ -220,5 +220,12 @@ class TicTacToeGame: #start charlie, interface of the game
 
         self.current_player = 'O' if player == 'X' else 'X'
         self.status_label.config(text=f"Player {self.current_player}'s turn")
+       
+       def _ai_turn(self):
+       if self.game_over: return
+       move = self.engine.get_best_move(self.board, self.current_player)
+       if move:
+           self._place_piece(move[0], move[1], self.current_player)
+
 
 
