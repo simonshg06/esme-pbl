@@ -222,10 +222,19 @@ class TicTacToeGame: #start charlie, interface of the game
         self.status_label.config(text=f"Player {self.current_player}'s turn")
        
        def _ai_turn(self):
-       if self.game_over: return
-       move = self.engine.get_best_move(self.board, self.current_player)
-       if move:
-           self._place_piece(move[0], move[1], self.current_player)
+           if self.game_over: return
+           move = self.engine.get_best_move(self.board, self.current_player)
+           if move:
+               self._place_piece(move[0], move[1], self.current_player)
+
+        def _cvc_turn(self):
+       # Computer vs Computer: each AI plays in turn with a 600ms delay
+            if self.game_over: return
+                move = self.engine.get_best_move(self.board, self.current_player)
+            if move:
+                self._place_piece(move[0], move[1], self.current_player)
+            if not self.game_over:
+                self.root.after(600, self._cvc_turn)  # Schedule the next AI move
 
 
 
