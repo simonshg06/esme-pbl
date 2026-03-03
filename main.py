@@ -77,7 +77,7 @@ class TicTacToe:
             for c in range(3):
                 if board[r][c] == ' ':
                     board[r][c] = ai_piece
-                    val = self.minimax(board, self.max_depth_max - 1, False, ai_piece)
+                    val = self.minimax(board, self.max_depth - 1, False, ai_piece)
                     board[r][c] = ' '
                     if val > best_val:
                         best_val = val
@@ -292,5 +292,5 @@ class TicTacToeGame: #start charlie, interface of the game
 
     if __name__ == "__main__":
         root = tk.Tk()
-        app = TicTacToeApp(root)
+        app = TicTacToeGame(root)
         root.mainloop()
