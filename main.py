@@ -114,7 +114,7 @@ class TicTacToe:
         board[r][c] = ' '
         return [best_move] + rest
     
-class TicTacToeApp:
+class TicTacToeGame: #start charlie, interface of the game 
     def __init__(self, root):
        self.root = root
        self.root.title("Tic-Tac-Toe")
@@ -211,4 +211,4 @@ class TicTacToeApp:
        if self.engine.is_full(self.board):
            self.status_label.config(text="It's a draw!")
            self.game_over = True
-           return
+           return #end charlie
