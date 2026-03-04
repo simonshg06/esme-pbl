@@ -1,4 +1,4 @@
-import math
+iimport math
 import copy
 import tkinter as tk
 from tkinter import ttk
@@ -156,7 +156,6 @@ class TicTacToeGame: #start charlie, interface of the game
     def __init__(self, root):
         self.root = root
         self.root.title("Tic-Tac-Toe")
-        self.root.geometry("600x800")
         self.root.resizable(False, False)
         self.engine = TicTacToe()
         self.board = [[' '] * 3 for _ in range(3)]
@@ -166,6 +165,9 @@ class TicTacToeGame: #start charlie, interface of the game
         self.game_mode = tk.StringVar(value="pvc")
         self.x_moves = [] # X placement history
         self.o_moves = [] # O placement history
+        self.score_x = 0    # X win counter
+        self.score_o = 0    # O win counter
+        self.score_draw = 0 # draw counter
         self._build_ui()
         self.reset_game()
 
@@ -174,6 +176,8 @@ class TicTacToeGame: #start charlie, interface of the game
 
     def _build_ui(self):
         tk.Label(self.root, text="Tic-Tac-Toe", font=("Arial", 20, "bold")).pack(pady=10)
+
+        # game mode selection
         mode_frame = tk.LabelFrame(self.root, text="Game Mode", padx=10, pady=5)
         mode_frame.pack(fill="x", padx=20, pady=5)
         row1 = tk.Frame(mode_frame) # standard modes row
@@ -185,12 +189,28 @@ class TicTacToeGame: #start charlie, interface of the game
         for text, val in [("Infinite (PvP)", "infinite_pvp"), ("Infinite (PvC)", "infinite_pvc")]:
             tk.Radiobutton(row2, text=text, variable=self.game_mode, value=val, command=self.reset_game).pack(side="left", padx=8)
 
+        # AI difficulty selector
         diff_frame = tk.LabelFrame(self.root, text="Difficulty (AI depth)", padx=10, pady=5)
         diff_frame.pack(fill="x", padx=20, pady=5)
         self.depth_var = tk.IntVar(value=9)
         for text, val in [("Easy (1)", 1), ("Medium (3)", 3), ("Hard (9)", 9)]:
             tk.Radiobutton(diff_frame, text=text, variable=self.depth_var, value=val, command=self._update_depth).pack(side="left", padx=10)
 
+        # live scoreboard above the board
+        score_frame = tk.LabelFrame(self.root, text="Scoreboard", padx=10, pady=8)
+        score_frame.pack(fill="x", padx=20, pady=5)
+        score_inner = tk.Frame(score_frame)
+        score_inner.pack()
+        self.label_score_x = tk.Label(score_inner, text="X : 0", font=("Arial", 13, "bold"), fg="black", width=8)
+        self.label_score_x.grid(row=0, column=0, padx=15)
+        self.label_score_draw = tk.Label(score_inner, text="Draw : 0", font=("Arial", 13, "bold"), fg="black", width=10)
+        self.label_score_draw.grid(row=0, column=1, padx=15)
+        self.label_score_o = tk.Label(score_inner, text="O : 0", font=("Arial", 13, "bold"), fg="black", width=8)
+        self.label_score_o.grid(row=0, column=2, padx=15)
+        tk.Button(score_frame, text="Reset Scores", font=("Arial", 10), bg="#9E9E9E", fg="white",
+                  command=self._reset_scores, width=12).pack(pady=(6, 0)) # reset scores button
+
+        # 3x3 board buttons
         board_frame = tk.Frame(self.root, bg="#333")
         board_frame.pack(pady=10)
         for r in range(3):
@@ -209,6 +229,7 @@ class TicTacToeGame: #start charlie, interface of the game
         )
         self.legend_label.pack()
 
+        # restart and show scores buttons
         btn_frame = tk.Frame(self.root)
         btn_frame.pack(pady=5)
         tk.Button(btn_frame, text="Restart", font=("Arial", 11), bg="#4CAF50", fg="white",
@@ -216,6 +237,7 @@ class TicTacToeGame: #start charlie, interface of the game
         tk.Button(btn_frame, text="Show Scores", font=("Arial", 11), bg="#2196F3", fg="white",
                   command=self._show_scores, width=12).grid(row=0, column=1, padx=8)
 
+        # ideal path buttons
         path_frame = tk.Frame(self.root)
         path_frame.pack(pady=5)
         tk.Button(path_frame, text="AI Ideal Path", font=("Arial", 11), bg="#9C27B0", fg="white",
@@ -235,6 +257,17 @@ class TicTacToeGame: #start charlie, interface of the game
         self.info_box.delete("1.0", tk.END)
         self.info_box.insert(tk.END, text)
         self.info_box.config(state="disabled")
+
+    def _update_scoreboard(self): # refresh score labels
+        self.label_score_x.config(text=f"X : {self.score_x}")
+        self.label_score_o.config(text=f"O : {self.score_o}")
+        self.label_score_draw.config(text=f"Draw : {self.score_draw}")
+
+    def _reset_scores(self): # reset all counters to zero
+        self.score_x = 0
+        self.score_o = 0
+        self.score_draw = 0
+        self._update_scoreboard()
 
     def _refresh_board_display(self): # redraw all buttons
         for r in range(3):
@@ -279,12 +312,19 @@ class TicTacToeGame: #start charlie, interface of the game
         if self.engine.check_winner(self.board, player):
             self._refresh_board_display()
             self.status_label.config(text=f"🎉 {player} wins!")
+            if player == 'X':
+                self.score_x += 1  # increment X score
+            else:
+                self.score_o += 1  # increment O score
+            self._update_scoreboard()
             self.game_over = True
             return
 
         if not self._is_infinite() and self.engine.is_full(self.board):
             self._refresh_board_display()
             self.status_label.config(text="It's a draw!")
+            self.score_draw += 1  # increment draw counter
+            self._update_scoreboard()
             self.game_over = True
             return #end charlie
 
@@ -328,9 +368,9 @@ class TicTacToeGame: #start charlie, interface of the game
 
     def _show_scores(self):
         # Collects and displays all leaf evaluation scores from the current board position
-        scores = self.engine.get_all_scores(self.board, self.current_player)
+        scores = self.engine.get_all_scores(self.board, 'O')
         if not scores:
-            self._print_info("No scores to display (game may be over).")
+            self._print_info("No scores to display (game is maybe over).")
             return
         text = f"Evaluation scores for this generation ({len(scores)} nodes):\n"
         text += f"  Values : {scores}\n"
@@ -343,7 +383,7 @@ class TicTacToeGame: #start charlie, interface of the game
         board_copy = copy.deepcopy(self.board)  # Works on a copy so the real board is not modified
         path = self.engine.get_ideal_path(board_copy, 'O', maximizing)
         if not path:
-            self._print_info("No path found (game may already be over).")
+            self._print_info("No path found (game is maybe over).")
             return
         label = "AI (O)" if maximizing else "Opponent (X)"
         moves_str = " → ".join([f"({r},{c})" for r, c in path])
@@ -367,7 +407,7 @@ class TicTacToeGame: #start charlie, interface of the game
             self.legend_label.config(fg=self.root.cget("bg")) # hide legend
 
         self.status_label.config(text="Player X's turn")
-        hint = " | Each player keeps only 3 pieces — oldest vanishes!" if self._is_infinite() else ""
+        hint = " | Each player keeps only 3 pieces, oldest vanishes!" if self._is_infinite() else ""
         self._print_info(f"Game started. Make your move!{hint}")
 
         # If CVC mode, start the automated match after a short delay
