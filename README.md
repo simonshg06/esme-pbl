@@ -100,6 +100,6 @@ What features would you add if you had more time or a larger budget?
 
 Undo button: let players step back one move, useful for learning and exploring alternate outcomes
 
-Animated piece removal: add a brief flash or fade when the oldest piece vanishes in Infinite mode, making the mechanic clearer for new players
+Animation when you win a game 
 
 Save/load game state , especially for the score
