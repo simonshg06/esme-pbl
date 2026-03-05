@@ -117,11 +117,6 @@ class TicTacToe:
                     best_move = (r, c)
         return best_move
 
-    def get_all_scores(self, board, ai_piece):
-        scores = []
-        self.minimax(board, self.max_depth, True, ai_piece, collect_scores=scores)
-        return scores
-
     def get_ideal_path(self, board, ai_piece, maximizing):
         opponent = 'X' if ai_piece == 'O' else 'O'
         current_piece = ai_piece if maximizing else opponent
@@ -234,8 +229,6 @@ class TicTacToeGame: #start charlie, interface of the game
         btn_frame.pack(pady=5)
         tk.Button(btn_frame, text="Restart", font=("Arial", 11), bg="#4CAF50", fg="white",
                   command=self.reset_game, width=12).grid(row=0, column=0, padx=8)
-        tk.Button(btn_frame, text="Show Scores", font=("Arial", 11), bg="#2196F3", fg="white",
-                  command=self._show_scores, width=12).grid(row=0, column=1, padx=8)
 
         # ideal path buttons
         path_frame = tk.Frame(self.root)
@@ -366,18 +359,6 @@ class TicTacToeGame: #start charlie, interface of the game
         if not self.game_over:
             self.root.after(600, self._cvc_turn)  # Schedule the next AI move
 
-    def _show_scores(self):
-        # Collects and displays all leaf evaluation scores from the current board position
-        scores = self.engine.get_all_scores(self.board, 'O')
-        if not scores:
-            self._print_info("No scores to display (game is maybe over).")
-            return
-        text = f"Evaluation scores for this generation ({len(scores)} nodes):\n"
-        text += f"  Values : {scores}\n"
-        text += f"  Minimum: {min(scores)}\n"
-        text += f"  Maximum: {max(scores)}"
-        self._print_info(text)
-
     def _show_path(self, maximizing):
         # Computes and displays the ideal sequence of moves for AI (maximizing=True) or opponent (maximizing=False)
         board_copy = copy.deepcopy(self.board)  # Works on a copy so the real board is not modified
@@ -419,7 +400,6 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = TicTacToeGame(root)
     root.mainloop()
-
 
 
 
